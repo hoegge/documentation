@@ -65,6 +65,8 @@ To disable them again, run:
 eventstore --run-projections=none
 ```
 
+> QUESTION: If you omit the --run-projections=all --start-standard-projections=true they are disabled. So is this --run-projections=none to disable them for an running server or how does that make sense?
+
 > [!NOTE]
 > To use the default database location on macOS you need to use `sudo`, or you can change the location with the `--db` parameter.
 
@@ -127,7 +129,11 @@ The projection counts the number of 'XBox One S's that customers added to their 
 
 A projection starts with a selector, in this case `fromAll()`. Another possibility is `fromCategory({category})` which this step discusses later, but for now, `fromAll` should do.
 
+> COMMENT: Then don't mention it now (fromCategory) when it is not relevant, since there are also others
+
 The second part of a projection is a set of filters. There is a special filter called `$init` that sets up an initial state. You want to start a counter from 0 and each time Event Store observes an `ItemAdded` event for an 'Xbox One S,' increment the counter.
+
+> COMMENT: Isn't `when()`the filter and the items inside the JS object are handlers, and `$init`is a special handler? And this handler must return the initial state object of the filter shared by all handlers defined in the filter, right? So this might make sense to you but not to a new user at all. `ItemAdded` is then a event handler entry defined in the JS object passed to the filter. This example does not output the state at the end, right? 
 
 Here is the projection, you can download it as a file [here](~/code-examples/getting-started/xbox-one-s-counter.json):
 
@@ -145,6 +151,8 @@ To use the HTTP or .NET API, pass the projection JSON file as a parameter of you
 
 > [!NEXT]
 > [Read here](~/projections/api.md) for more information on creating projections with the HTTP API and the parameters available, or [our projections section](~/projections/index.md) for details on projection syntax.
+
+> COMMENT: Actually those sections do not desribe the parameters. What does trackemittedstreams mean? Emit enabled? (I think it means the resulting events are sent out - needed when not using outputState(), which you don't in the example above, which means you will not get the result (state) of the query, right, but just the events?)
 
 ### [.NET API](#tab/tabid-create-proj-net)
 
@@ -187,6 +195,8 @@ Below is the updated projection, you can download it as a file [here](~/code-exa
 
 To update the projection, edit the projection definition in the Admin UI, or issue the following request:
 
+> QUESTION: Will that then add an event to the output stream or create a new stream? I mean - does output state produce a stream of results, where you can look a all generations of results, or?
+
 ### [HTTP API](#tab/tabid-update-proj-http)
 
 [!code-bash[getting-started-projections-output-state-update](~/code-examples/getting-started/xbox-one-s-counter-outputState.sh)]
@@ -214,6 +224,8 @@ Then reset the projection you created above:
 * * *
 
 You can now read the events in the result stream by issuing a read request.
+
+> QUESTION: So again? What events? Different versions of state?
 
 ### [HTTP API](#tab/tabid-read-stream-http)
 
@@ -282,17 +294,21 @@ The projection links events from existing streams to new streams by splitting th
 
 By default, the category splits the stream `id` by a dash. The category is the first string.
 
-| Stream Name        | Category                               |
-| ------------------ | -------------------------------------- |
-| shoppingCart-54    | shoppingCart                           |
-| shoppingCart-v1-54 | shoppingCart                           |
-| shoppingCart       | _No category as there is no separator_ |
+| Stream Name        | Category            | New Stream              |
+| ------------------ | --------------------|------------------ |
+| shoppingCart-54    | shoppingCart        | 54                  |
+| shoppingCart-v1-54 | shoppingCart        |   v1-54                |
+| shoppingCart       | _No category as there is no separator_ | n/a |
+
+> COMMENT: Add the stream name to the right, like above?
 
 You want to define a projection that produces a count per stream for a category, but the state needs to be per stream. To do so, use `$by_category` and its `fromCategory` API method.
 
 Below is the projection, you can download the file [here](~/code-examples/getting-started/shopping-cart-counter.json):
 
 [!code-json[getting-started-projections-count-per-stream](~/code-examples/getting-started/shopping-cart-counter.json)]
+
+> COMMENT: So how does the resulting output look? And is there any way to see what number belongs to what stream? Might be part of the output but hard to tell? Is there any way for the filter handler to know what stream it works on (which could be relevant)?
 
 Create the projection with the following request:
 
@@ -309,6 +325,8 @@ Create the projection with the following request:
 #### Querying for the state of the projection by partition
 
 Querying for the state of the projection is different due to the partitioning of the projection. You have to specify the partition and the name of the stream.
+
+> QUESTION: And how do you know what partition is in the results to do that?
 
 ### [HTTP API](#tab/tabid-read-partition-http)
 

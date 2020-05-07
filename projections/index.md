@@ -24,6 +24,8 @@ Projections support the concept of continuous queries. When running a projection
 
 In the medical example above the doctor could leave the query running to be notified of any new patients that meet the criteria. The output of all queries is a stream, this stream can be listened to like any other stream.
 
+> QUESTION: So does that mean that there is a new event in that stream with either a transformation / result of incoming events or in the case of outputState() a new event with a new state every time 1) the state changes or 2) there is a new event entering the query?
+
 ## Types of projections
 
 There are two types of projections in Event Store:

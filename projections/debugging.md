@@ -12,7 +12,9 @@ For debugging purposes, projections includes a log method which, when called, se
 
 You might find printing out the structure of the event body for inspection useful.
 
-For example:
+> **IMPROVE**:
+> - Everything is going **according** to plan
+> - 
 
 ```bash
 fromStream('$stats-127.0.0.1:2113')

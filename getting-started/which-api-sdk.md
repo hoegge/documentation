@@ -17,9 +17,9 @@ Event Store offers a low-level protocol in the form of an asynchronous TCP proto
 
 ### Community developed clients
 
--   [Node.js](https://www.npmjs.com/package/event-store-client)
--   [Node.js](https://www.npmjs.com/package/ges-client)
--   [Node.js](https://github.com/nicdex/eventstore-node)
+-   [Node.js NPM: event-store-client](https://www.npmjs.com/package/event-store-client)
+-   [Node.js NPM: ges-client](https://www.npmjs.com/package/ges-client)
+-   [Node.js NPM: node-eventstore-client](https://github.com/nicdex/eventstore-node)
 -   [Haskell](https://github.com/YoEight/eventstore)
 -   [Erlang](https://bitbucket.org/anakryiko/erles)
 -   [F#](https://github.com/haf/EventStore.Client.FSharp)
@@ -29,6 +29,8 @@ Event Store offers a low-level protocol in the form of an asynchronous TCP proto
 -   [Rust](https://github.com/YoEight/eventstore-rs)
 -   [Go](https://github.com/jdextraze/go-gesclient)
 -   [PHP](https://github.com/prooph/event-store-client/)
+
+> Please: recommend one of the NodeJS clients or tell users which one is better at what instead of just listing them.
 
 ## HTTP
 
